@@ -1,8 +1,9 @@
 #include <stdio.h>
 
-int main(int argc, char **argv)
+int main(argc, argv)
+    int argc; 
+    char **argv;
 {
-    printf ( "%d", 1^4 );
     printf("argc: %d\n", argc);
 
     for (int i = 0; i < argc; i++)

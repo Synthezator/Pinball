@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/timeb.h>
+#include <math.h>
 
 #ifdef __cplusplus
 #error NO C++ PLEASE
 #endif
 
+/* Needed for usleep */
 #ifdef _WIN32
 #include <Windows.h>
 #else
@@ -13,18 +15,25 @@
 #endif
 
 static int latestFps = 0;
+
+/* Screen height is actually 1.5 times bigger than width. The field borders ratio is also 3:2 */
 static int screenWidth = 80;
 static int screenHeight = 60; 
 static char **screenBuffer;
 
-/* Also handle difference in width and height of console characters */
-static float ballPositionX = 0.4f;
-static float ballPositionY = 0.5f;
+static float ballPositionX = 1.9f;
+static float ballPositionY = 0.05f;
 static float ballSpeedX = 0.4f;
 static float ballSpeedY = 0.5f;
 
+static float leftFieldBorderX = 0.0f;
+static float rightFieldBorderX = 2.0f;
+static float topFieldBorderY = 3.0f;
+static float bottomFieldBorderY = 0.0f;
+
 void CalculatePhysics(int millisecondsElapsed);
-void Draw();
+void DrawElementsToBuffer();
+void DrawBuffer();
 
 int main(int argc, char *argv[])
 {
@@ -49,7 +58,7 @@ int main(int argc, char *argv[])
     int counter = 0;
     while (1)
     {
-        usleep(10000);
+        usleep(5000);
         counter++;
         ftime( &currentTime );
         int millisecondsPassed = (int) (1000.0 * (currentTime.time - previousTime.time) +
@@ -62,26 +71,87 @@ int main(int argc, char *argv[])
 
         CalculatePhysics(millisecondsPassed);
 
-        Draw();
+        DrawElementsToBuffer();
+
+        DrawBuffer();
     }
 }
 
 void CalculatePhysics(int millisecondsElapsed)
 {
+    // 62 h = 1744 px -> h ~= 28 px
+    // 82 w = 1158 px -> w ~= 14 px
+    float deltaTime = ((float)millisecondsElapsed) / 1000.0f;
+    ballPositionX += ballSpeedX * deltaTime;
+    ballPositionY += ballSpeedY * deltaTime;
 
+    if (ballPositionX <= leftFieldBorderX && ballSpeedX < 0)
+    {
+        ballSpeedX *= -1;
+    }
+
+    if (ballPositionX >= rightFieldBorderX && ballSpeedX > 0)
+    {
+        ballSpeedX *= -1;
+    }
+
+    if (ballPositionY >= topFieldBorderY && ballSpeedY > 0)
+    {
+        ballSpeedY *= -1;
+    }
+
+    if (ballPositionY <= bottomFieldBorderY && ballSpeedY < 0)
+    {
+        ballSpeedY *= -1;
+    }
 }
 
-void Draw()
+void DrawElementsToBuffer()
 {
-    printf("\e[1;1H\e[2J");
-    printf("FPS: %d\n", latestFps);
-    
     for (int i = 0; i < screenHeight; i++)
     {
         for (int j = 0; j < screenWidth; j++)
         {
-            printf("%c", screenBuffer[i][j]);
-            if (j == screenWidth - 1)
+            screenBuffer[i][j] = ' ';
+        }
+    }
+
+    float ballPositionInFieldX = (ballPositionX - leftFieldBorderX) / (rightFieldBorderX - leftFieldBorderX);
+    float ballPositionInFieldY = (ballPositionY - bottomFieldBorderY) / (topFieldBorderY - bottomFieldBorderY);
+
+    int ballScreenPositionX = (int) roundf(ballPositionInFieldX * (float)screenWidth);
+    int ballScreenPositionY = (int) roundf((1 - ballPositionInFieldY) * (float)screenHeight);
+    if (ballScreenPositionX >= 0 && ballScreenPositionX < screenWidth && 
+        ballScreenPositionY >= 0 && ballScreenPositionY < screenHeight)
+    {
+        screenBuffer[ballScreenPositionY][ballScreenPositionX] = 'O';
+    }
+}
+
+void DrawBuffer()
+{
+    // printf("\e[1;1H\e[2J");
+#ifdef _WIN32
+    system("cls");
+#else
+    system("clear");
+#endif
+    printf("FPS: %d\n", latestFps);
+    
+    for (int i = -1; i <= screenHeight; i++)
+    {
+        for (int j = -1; j <= screenWidth; j++)
+        {
+            if (i >= 0 && i < screenHeight && j >= 0 && j < screenWidth)
+            {
+                printf("%c", screenBuffer[i][j]);
+            }
+            else
+            {
+                printf("*");
+            }
+
+            if (j == screenWidth)
             {
                 printf("\n");
             }
