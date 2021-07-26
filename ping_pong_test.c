@@ -35,6 +35,16 @@ void CalculatePhysics(int millisecondsElapsed);
 void DrawElementsToBuffer();
 void DrawBuffer();
 
+int SleepCrossplatform(int milliseconds)
+{
+#ifdef _WIN32
+    Sleep((DWORD) milliseconds);
+    return 0;
+#else
+    return usleep(milliseconds * 1000);
+#endif
+}
+
 int main(int argc, char *argv[])
 {
     printf("Pinball v1");
@@ -58,7 +68,7 @@ int main(int argc, char *argv[])
     int counter = 0;
     while (1)
     {
-        usleep(5000);
+        SleepCrossplatform(5);
         counter++;
         ftime( &currentTime );
         int millisecondsPassed = (int) (1000.0 * (currentTime.time - previousTime.time) +
