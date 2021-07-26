@@ -7,7 +7,7 @@
 #error NO C++ PLEASE
 #endif
 
-/* Needed for usleep */
+/* Needed for sleep */
 #ifdef _WIN32
 #include <Windows.h>
 #else
@@ -38,7 +38,7 @@ void DrawBuffer();
 int SleepCrossplatform(int milliseconds)
 {
 #ifdef _WIN32
-    Sleep((DWORD) milliseconds);
+    //Sleep((DWORD) milliseconds);
     return 0;
 #else
     return usleep(milliseconds * 1000);
@@ -49,16 +49,26 @@ int main(int argc, char *argv[])
 {
     printf("Pinball v1");
 
-    screenBuffer = (char **)malloc(screenHeight * sizeof(char *));
-    for (int i = 0; i < screenHeight; i++)
+    screenBuffer = (char **)malloc((screenHeight + 2) * sizeof(char *));
+    for (int i = 0; i < screenHeight + 2; i++)
     {
-        screenBuffer[i] = (char *)malloc(screenWidth * sizeof(char));
-        for (int j = 0; j < screenWidth; j++)
+        screenBuffer[i] = (char *)malloc((screenWidth + 3) * sizeof(char));
+        screenBuffer[i][screenWidth + 2] = '\0';
+        if (i > 0 && i < screenHeight + 1)
         {
-            printf("%c ", screenBuffer[i][j]);
-            screenBuffer[i][j] = 'x';
+            screenBuffer[i][0] = screenBuffer[i][screenWidth + 1] = '*';
+            for (int j = 1; j <= screenWidth; j++)
+            {
+                screenBuffer[i][j] = ' ';
+            }
         }
-        printf("\n");
+        else
+        {
+            for (int j = 0; j < screenWidth + 2; j++)
+            {
+                screenBuffer[i][j] = '*';
+            }
+        }
     }
 
     /* Consider replacing with timeval and using microseconds */
@@ -118,9 +128,9 @@ void CalculatePhysics(int millisecondsElapsed)
 
 void DrawElementsToBuffer()
 {
-    for (int i = 0; i < screenHeight; i++)
+    for (int i = 1; i <= screenHeight; i++)
     {
-        for (int j = 0; j < screenWidth; j++)
+        for (int j = 1; j <= screenWidth; j++)
         {
             screenBuffer[i][j] = ' ';
         }
@@ -134,13 +144,12 @@ void DrawElementsToBuffer()
     if (ballScreenPositionX >= 0 && ballScreenPositionX < screenWidth && 
         ballScreenPositionY >= 0 && ballScreenPositionY < screenHeight)
     {
-        screenBuffer[ballScreenPositionY][ballScreenPositionX] = 'O';
+        screenBuffer[ballScreenPositionY + 1][ballScreenPositionX + 1] = 'O';
     }
 }
 
 void DrawBuffer()
 {
-    // printf("\e[1;1H\e[2J");
 #ifdef _WIN32
     system("cls");
 #else
@@ -148,23 +157,8 @@ void DrawBuffer()
 #endif
     printf("FPS: %d\n", latestFps);
     
-    for (int i = -1; i <= screenHeight; i++)
+    for (int i = 0; i < screenHeight + 2; i++)
     {
-        for (int j = -1; j <= screenWidth; j++)
-        {
-            if (i >= 0 && i < screenHeight && j >= 0 && j < screenWidth)
-            {
-                printf("%c", screenBuffer[i][j]);
-            }
-            else
-            {
-                printf("*");
-            }
-
-            if (j == screenWidth)
-            {
-                printf("\n");
-            }
-        }
+        printf("%s\n", screenBuffer[i]);
     }
 }
