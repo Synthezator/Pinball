@@ -1,9 +1,14 @@
 #include <stdio.h>
+#include <stdlib.h>
+
+void memoryLeakTest();
 
 int main(argc, argv)
     int argc; 
     char **argv;
 {
+    // memoryLeakTest();
+
     printf("argc: %d\n", argc);
 
     for (int i = 0; i < argc; i++)
@@ -27,4 +32,18 @@ int main(argc, argv)
     }
 
     printf("End of program.\n");
+}
+
+void memoryLeakTest()
+{
+    int index = 0;
+    while (1)
+    {
+        malloc(1 << 30);
+        index++;
+        if (index % 1000 == 0)
+        {
+            printf("%i\n", index);
+        }
+    }
 }
