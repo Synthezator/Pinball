@@ -181,3 +181,7 @@ char  *x = 0;  /* add doc */
   #define sys_socket_h  /* NOT _sys_socket_h_ */
   #endif 
 ```
+
+# Initialize all Variables
+
+* You shall always initialize variables. Always. Every time. gcc with the flag -W may catch operations on uninitialized variables, but it may also not.
