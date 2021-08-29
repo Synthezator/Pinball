@@ -1,4 +1,4 @@
-# stucture_names
+# Stucture names
 * Use underbars ('_') to separate name components
 
 ```c
@@ -43,7 +43,7 @@ typedef struct {
 
 *  Structures should be declared at the top of the file in which they are used, or in separate header files, if they are used in multiple source files.
 
-# variables_naming
+# Variables naming
 
 * use all lower case letters
 * use '_' as the word separator.
@@ -56,7 +56,7 @@ int handle_error (int error_number) {
    }
 ```
 
-# pointers_variables
+# Pointers variables
 
 * Place the * close to the variable name not pointer type
 
@@ -66,7 +66,7 @@ int handle_error (int error_number) {
     char *name, address; 
 ```
 
-# global_variables
+# Global variables
 
 * Global variables should be prepended with a 'g_'.
 * Global variables should be avoided whenever possible.
@@ -76,7 +76,7 @@ int handle_error (int error_number) {
     Logger* g_plog;
 ```
 
-# global_constants
+# Global constants
 
 * Global constants should be all caps with '_' separators.
 
@@ -87,15 +87,14 @@ const int A_GLOBAL_CONSTANT= 5;
 # #define and macro names
 
 * Put #defines and macros in all upper using '_' separators.
- Try to make your macro as clean as possible and avoid some hacks as 'do{} while(0)',parenthesis.
-
+_Try to make your macro as clean as possible and avoid some hacks as 'do{} while(0)',parenthesis._
  ```c
 #define MAX(a,b) blah
 #define IS_ERR(err) blah
-#define	MACRO(v, w, x, y)						\
+#define	MACRO(v, w, x, y)				\
 do {									\
-	v = (x) + (y);							\
-	w = (y) + 2;							\
+	v = (x) + (y);						\
+	w = (y) + 2;						\
 } while (0)
  ```
 
