@@ -18,6 +18,7 @@ inline int
 ```
 
 # Always Wrap the Expression in Parenthesis
+
 * When putting expressions in macros always wrap the expression in parenthesis to avoid potential communitive operation abiguity
 ```c
 #define ADD(x,y) x + y
@@ -32,3 +33,13 @@ Like global variables macros can conflict with macros from other packages.
 
 * Prepend macro names with package names.
 * Avoid simple and common names like MAX and MIN.
+
+# Use Header File Guards
+
+* Include files should protect against multiple inclusion through the use of macros that "guard" the files. Do *not* use underscores '_' as the first or last character of a header guard.(For C++ compatibility)
+
+```c
+#ifndef sys_socket_h
+  #define sys_socket_h  /* NOT _sys_socket_h_ */
+#endif 
+```

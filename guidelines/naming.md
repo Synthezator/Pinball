@@ -87,7 +87,7 @@ const int A_GLOBAL_CONSTANT= 5;
 # #define and macro names
 
 * Put #defines and macros in all upper using '_' separators.
-_Try to make your macro as clean as possible and avoid some hacks as 'do{} while(0)',parenthesis._
+_Try to make your macro as clean as possible and avoid some hacks like 'do{} while(0)',parenthesis._
  ```c
 #define MAX(a,b) blah
 #define IS_ERR(err) blah
@@ -100,8 +100,7 @@ do {									\
 
 # Enum
 
-* Labels All Upper Case with '_' Word Separators
-_This is the standard rule for enum labels. No comma on the last element._
+* Labels All Upper Case with '_' Word Separators. No comma on the last element.
 
 ```c
 enum PinStateType {

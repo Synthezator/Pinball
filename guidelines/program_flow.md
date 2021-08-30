@@ -21,16 +21,13 @@ is better than
 ```
 
 # _If Then Else_ Formatting
-
-* There is common approach
+_If you have else if statements then it is usually a good idea to always have an else block for finding unhandled cases. Maybe put a log message in the else even if there is no corrective action taken._
 ```c
 if (condition) {
    } else if (condition) {
    } else {
    }
 ```
-
-_If you have else if statements then it is usually a good idea to always have an else block for finding unhandled cases. Maybe put a log message in the else even if there is no corrective action taken._
 
 ## Condition format
 
