@@ -8,7 +8,8 @@ typedef struct{
 ```
 
 * Declare variables in structures organized by use in a manner to attempt to minimize memory wastage because of compiler alignment issues, then by size, and then by alphabetical order
-    _Bad Example_
+
+_Bad Example_
 ```c
 typedef struct{
     int a;
@@ -17,8 +18,7 @@ typedef struct{
     chr *d;
 } foo;
 ```
-
-    _Good example_
+_Good example_
 
 ```c
 typedef struct
