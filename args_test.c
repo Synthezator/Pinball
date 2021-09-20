@@ -19,15 +19,11 @@ int main(argc, argv)
         char *addr = *(argv + i);
         printf("0x%lX\n", (long)addr);
         char symbol = *addr;
-        do
+        while ((symbol = *(addr + j)))
         {
             printf("%c", symbol);
             j++;
-            char co = 'n';
-            symbol = co;
-            symbol = *(addr + j);
         }
-        while (symbol != 0);
 
         printf("\n");
     }
