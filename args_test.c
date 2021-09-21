@@ -42,9 +42,18 @@ int main(argc, argv)
 
     printf("Press Ctrl+D to end the program.\n");
 
+    FILE* source_code_file;
+    source_code_file = fopen("args_test.c", "r");
+    if (!source_code_file)
+    {
+        perror("Error opening file args_test.c");
+        return 1;
+    }
+
     int c;
-    while ((c = getchar()) != EOF)
+    while ((c = fgetc(source_code_file)) != EOF)
     {
         putchar(c);
     }
+    return 0;
 }
