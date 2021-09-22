@@ -1,5 +1,8 @@
 #include <stdio.h>
 
+/* K&R syntax for function declaration is used here. 
+ * It's outdated, so it's better to use ANSI syntax: int main(int argc, char **argv)
+ * */
 int main(argc, argv)
     int argc; 
     char **argv;
@@ -8,8 +11,8 @@ int main(argc, argv)
     char *ptr = "rufus";
 
     str[3] = ptr[3];
-    /* Cannot be assigned: ptr data is readonly, ptr itself is not
-     * And vise versa for str
+    /* Cannot be assigned: ptr data is readonly, ptr itself is not.
+     * And vise versa for str, so this line won't compile:
     ptr[1] = str[1];
      * */
 
