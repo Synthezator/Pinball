@@ -54,7 +54,8 @@ _sys_write:
 	mov rax, 0x02000004 	; Write system call
 	mov rdi, 1 				; std output
 	mov rsi, [rbp+24] 		; first param: address of the string
-	mov rdx, [rbp+16] 		; second param: length of the string
+	xor rdx, rdx
+	mov edx, [rbp+20] 		; second param: length of the string
 	syscall
 
 	pop rsi

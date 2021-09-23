@@ -1,8 +1,8 @@
-extern int sys_write(long length, const char *string);
+extern int sys_write(int length, const char *string);
 
 int write(const char *string)
 {
-    long strlen = 0;
+    int strlen = 0;
     while (string[strlen])
     {
         strlen++;
@@ -20,7 +20,7 @@ int main_c(int argc, char **argv)
 
     write("Hi, ");
     write(argv[1]);
-    write("\n");
+    write("!\n");
 
     return 0;
 }
