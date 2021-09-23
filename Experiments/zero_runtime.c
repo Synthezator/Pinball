@@ -1,13 +1,13 @@
-extern int sys_write(const char *string, int length);
+extern int sys_write(long length, const char *string);
 
 int write(const char *string)
 {
-    int strlen = 0;
+    long strlen = 0;
     while (string[strlen])
     {
         strlen++;
     }
-    return sys_write(string, strlen);
+    return sys_write(strlen, string);
 }
 
 int main_c(int argc, char **argv)
