@@ -1,7 +1,6 @@
 global _sys_write
 
 section .text
-
 _sys_write:
 	push rbp
 	mov rbp, rsp
@@ -20,5 +19,3 @@ _sys_write:
 	mov rsp, rbp
 	pop rbp
 	ret
-
-section .data
