@@ -1,4 +1,4 @@
-extern int sys_write(int length, const char *string);
+extern int sys_write(const char *string, int length);
 
 int write(const char *string)
 {
@@ -7,7 +7,7 @@ int write(const char *string)
     {
         strlen++;
     }
-    return sys_write(strlen, string);
+    return sys_write(string, strlen);
 }
 
 int main_c(int argc, char **argv)
