@@ -1,26 +1,16 @@
-extern int sys_write(const char *string, int length);
-
-int write(const char *string)
-{
-    int strlen = 0;
-    while (string[strlen])
-    {
-        strlen++;
-    }
-    return sys_write(string, strlen);
-}
+extern int sys_write(const char *string);
 
 int main(int argc, char **argv)
 {
     if (argc < 2)
     {
-        write("Error\n");
+        sys_write("Error\n");
         return 1;
     }
 
-    write("Hi, ");
-    write(argv[1]);
-    write("!\n");
+    sys_write("Hi, ");
+    sys_write(argv[1]);
+    sys_write("!\n");
 
     return 0;
 }
