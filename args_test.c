@@ -1,4 +1,8 @@
 #include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <sys/stat.h>
 
 /* K&R syntax for function declaration is used here. 
  * It's outdated, so it's better to use ANSI syntax: int main(int argc, char **argv)
@@ -7,6 +11,28 @@ int main(argc, argv)
     int argc; 
     char **argv;
 {
+    /* Play with const char * */
+    /* How to write bare metal program * */
+
+#if 0
+    umask(0);
+    int file_descr = open("temp.txt", O_RDWR | O_CREAT, 0666);
+    if (file_descr == -1)
+    {
+        perror("Couldn't create file\n");
+        return 2;
+    }
+    printf("file_descr: %d\n", file_descr);
+    long res_seek = lseek(file_descr, 200, SEEK_SET);
+    printf("res_seek: %ld\n", res_seek);
+    
+    char *text_to_write = "Niwo text";
+    int res = write(file_descr, text_to_write, 9);
+    printf("res_write: %d\n", res);
+
+    return res == - 1 ? 1 : 0;
+#endif
+
     char str[] = "savage";
     char *ptr = "rufus";
 
